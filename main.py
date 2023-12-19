@@ -4,6 +4,13 @@ import random
 from pygame.math import Vector2
 
 
+class Snake:
+
+    def __init__(self):
+        # holds list containing the blocks of the snake
+        self.body = [Vector2(5, 10), Vector2(6, 10), Vector2(7, 10)]
+
+
 class Fruit:
 
     def __init__(self):
@@ -33,6 +40,7 @@ screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_si
 clock = pygame.time.Clock()
 
 fruit = Fruit()
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
