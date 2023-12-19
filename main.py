@@ -1,11 +1,29 @@
 import pygame
 import sys
+from pygame.math import Vector2
+
+
+class Fruit:
+
+    def __int__(self):
+        # create an x and y position
+        self.x = 5
+        self.y = 4
+        # create a two-dimensional vector
+        self.position = Vector2(self.x, self. y)
+
+    def draw_fruit(self):
+        # create a rectangle
+        fruit_rect = pygame.Rect(self.position.x, self.position.y, cell_size, cell_size)
+        # draw rectangle on display screen
+        pygame.draw.rect(screen, (126, 166, 100), fruit_rect)
+
 
 pygame.init()
-
-
+cell_size = 40
+cell_number = 20  # can change later
 # create display screen - main window
-screen = pygame.display.set_mode((400, 500))
+screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 # variable will represent framerate - How many times do we want our while loop to run
 clock = pygame.time.Clock()
 
@@ -21,32 +39,6 @@ while True:
     pygame.display.update()
     # framerate set to 60. Help with consistency across different devices
     clock.tick(60)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # pygame notes
 # # Starts pygame modules
