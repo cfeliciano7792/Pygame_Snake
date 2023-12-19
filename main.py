@@ -3,6 +3,7 @@ import sys
 
 pygame.init()
 
+
 # create display screen - main window
 screen = pygame.display.set_mode((400, 500))
 # variable will represent framerate - How many times do we want our while loop to run
