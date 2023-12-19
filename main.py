@@ -1,20 +1,25 @@
 import pygame
 import sys
+import random
 from pygame.math import Vector2
 
 
 class Fruit:
 
     def __init__(self):
-        # create an x and y position
-        self.x = 5
-        self.y = 4
+        # create an x and y position - using randint to generate random position
+        self.x = random.randint(0, cell_number-1)
+        self.y = random.randint(0, cell_number-1)
         # create a two-dimensional vector
         self.pos = Vector2(self.x, self. y)
 
     def draw_fruit(self):
+        """
+        Places a fruit onto the game screen. X and Y position are multiplied by cell_size to help
+        give illusion of a grid
+        """
         # create a rectangle
-        fruit_rect = pygame.Rect(self.pos.x, self.pos.y, cell_size, cell_size)
+        fruit_rect = pygame.Rect(self.pos.x * cell_size, self.pos.y * cell_size, cell_size, cell_size)
         # draw rectangle on display screen
         pygame.draw.rect(screen, (126, 166, 100), fruit_rect)
 
@@ -41,6 +46,17 @@ while True:
     pygame.display.update()
     # framerate set to 60. Help with consistency across different devices
     clock.tick(60)
+
+
+
+
+
+
+
+
+
+
+
 
 # pygame notes
 # # Starts pygame modules
