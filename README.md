@@ -1,4 +1,4 @@
 Snake game created using Pycharm!
 
-Download the executable folder to play the game on your PC!
+Download snake.exe, Sound folder, Graphics folder, and to play the game on your PC!
 
