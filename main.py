@@ -31,11 +31,12 @@ class Snake:
 class Fruit:
 
     def __init__(self):
-        # create an x and y position - using randint to generate random position
-        self.x = random.randint(0, cell_number - 1)
-        self.y = random.randint(0, cell_number - 1)
-        # create a two-dimensional vector
-        self.pos = Vector2(self.x, self.y)
+        self.randomize()
+        # # create an x and y position - using randint to generate random position
+        # self.x = random.randint(0, cell_number - 1)
+        # self.y = random.randint(0, cell_number - 1)
+        # # create a two-dimensional vector
+        # self.pos = Vector2(self.x, self.y)
 
     def draw_fruit(self):
         """
@@ -47,6 +48,14 @@ class Fruit:
         # draw rectangle on display screen
         pygame.draw.rect(screen, (126, 166, 100), fruit_rect)
 
+    # create a random position and place the fruit there after eaten by snake
+    def randomize(self):
+        # create an x and y position - using randint to generate random position
+        self.x = random.randint(0, cell_number - 1)
+        self.y = random.randint(0, cell_number - 1)
+        # create a two-dimensional vector
+        self.pos = Vector2(self.x, self.y)
+
 
 class Main:
 
@@ -56,17 +65,23 @@ class Main:
 
     def update(self):
         self.snake.move_snake()
+        self.check_collision()
 
     def draw_elements(self):
         self.fruit.draw_fruit()
         self.snake.draw_snake()
 
-
+    def check_collision(self):
+        # check if head of snake is in the same position as fruit
+        if self.fruit.pos == self.snake.body[0]:
+            # reposition fruit
+            self.fruit.randomize()
+            # add a new block to snake
 
 
 pygame.init()
 cell_size = 40
-cell_number = 20  # can change later
+cell_number = 19  # can change later
 # create display screen - main window
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 # variable will represent framerate - How many times do we want our while loop to run
