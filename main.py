@@ -8,7 +8,7 @@ class Snake:
 
     def __init__(self):
         # holds list containing the blocks of the snake + starting position
-        self.body = [Vector2(5, 10), Vector2(6, 10), Vector2(7, 10)]
+        self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(1, 0)
         self.new_block = False
 
@@ -85,6 +85,7 @@ class Main:
     def update(self):
         self.snake.move_snake()
         self.check_collision()
+        self.check_fail()
 
     def draw_elements(self):
         self.fruit.draw_fruit()
@@ -98,6 +99,18 @@ class Main:
             # add a new block to snake
             self.snake.add_block()
 
+    def check_fail(self):
+        # check if snake goes off-screen
+        if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
+            self.game_over()
+        # check if snake hits its self
+        for block in self.snake.body[1:]:
+            if block == self.snake.body[0]:
+                self.game_over()
+
+    def game_over(self):
+        pygame.quit()
+        sys.exit()
 
 pygame.init()
 cell_size = 40
