@@ -30,6 +30,9 @@ class Snake:
         self.body_br = pygame.image.load('Graphics/body_br.png').convert_alpha()
         self.body_bl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
 
+        # imports sound
+        self.crunch_sound = pygame.mixer.Sound('Sound/crunch.wav')
+
     def draw_snake(self):
 
         self.update_head_graphics()
@@ -107,6 +110,9 @@ class Snake:
     def add_block(self):
         self.new_block = True
 
+    def play_crunch_sound(self):
+        self.crunch_sound.play()
+
 
 class Fruit:
 
@@ -163,6 +169,7 @@ class Main:
             self.fruit.randomize()
             # add a new block to snake
             self.snake.add_block()
+            self.snake.play_crunch_sound()
 
     def check_fail(self):
         # check if snake goes off-screen
@@ -194,19 +201,23 @@ class Main:
     def draw_score(self):
         score_text = str(len(self.snake.body) - 3)
         score_surface = game_font.render(score_text, True, (56, 74, 20))
-        score_x = int(cell_size*cell_number - 60)
+        score_x = int(cell_size * cell_number - 60)
         score_y = int(cell_size * cell_number - 40)
         # adds apple image next to score
         score_rect = score_surface.get_rect(center=(score_x, score_y))
-        apple_rect = apple.get_rect(midright=(score_rect.left,score_rect.centery))
+        apple_rect = apple.get_rect(midright=(score_rect.left, score_rect.centery))
         # draws a background behind the score
-        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 8, apple_rect.height)
+        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 8,
+                              apple_rect.height)
 
         pygame.draw.rect(screen, (164, 209, 70), bg_rect)
         screen.blit(score_surface, score_rect)
         screen.blit(apple, apple_rect)
         pygame.draw.rect(screen, (56, 74, 20), bg_rect, 2)
 
+
+# prevents a delay in sound playing
+pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init()
 cell_size = 40
 cell_number = 20  # can change later
