@@ -116,6 +116,9 @@ class Snake:
     def reset(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(0, 0)
+        timer = 150
+        pygame.time.set_timer(SCREEN_UPDATE, timer)
+
 
 class Fruit:
 
@@ -239,8 +242,9 @@ apple = pygame.image.load('Graphics/apple.png').convert_alpha()
 game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
 
 # Creating a custom event that will trigger every 150 milliseconds
+timer = 150
 SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE, 150)
+pygame.time.set_timer(SCREEN_UPDATE, timer)
 
 main_game = Main()
 
@@ -268,6 +272,15 @@ while True:
             if event.key == pygame.K_RIGHT:
                 if main_game.snake.direction.x != -1:
                     main_game.snake.direction = Vector2(1, 0)
+            if event.key == pygame.K_e:
+                timer = 250
+                pygame.time.set_timer(SCREEN_UPDATE, timer)
+            if event.key == pygame.K_n:
+                timer = 150
+                pygame.time.set_timer(SCREEN_UPDATE, timer)
+            if event.key == pygame.K_h:
+                timer = 70
+                pygame.time.set_timer(SCREEN_UPDATE, timer)
     # Fill the main screen green
     screen.fill((175, 215, 72))
     main_game.draw_elements()
