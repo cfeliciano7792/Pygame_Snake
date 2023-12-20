@@ -12,14 +12,55 @@ class Snake:
         self.direction = Vector2(1, 0)
         self.new_block = False
 
+        self.head_up = pygame.image.load('Graphics/head_up.png').convert_alpha()
+        self.head_down = pygame.image.load('Graphics/head_down.png').convert_alpha()
+        self.head_right = pygame.image.load('Graphics/head_right.png').convert_alpha()
+        self.head_left = pygame.image.load('Graphics/head_left.png').convert_alpha()
+
+        self.tail_up = pygame.image.load('Graphics/tail_up.png').convert_alpha()
+        self.tail_down = pygame.image.load('Graphics/tail_down.png').convert_alpha()
+        self.tail_right = pygame.image.load('Graphics/tail_right.png').convert_alpha()
+        self.tail_left = pygame.image.load('Graphics/tail_left.png').convert_alpha()
+
+        self.body_vertical = pygame.image.load('Graphics/body_vertical.png').convert_alpha()
+        self.body_horizontal = pygame.image.load('Graphics/body_horizontal.png').convert_alpha()
+
+        self.body_tr = pygame.image.load('Graphics/body_tr.png').convert_alpha()
+        self.body_tl = pygame.image.load('Graphics/body_tl.png').convert_alpha()
+        self.body_br = pygame.image.load('Graphics/body_br.png').convert_alpha()
+        self.body_bl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
+
     def draw_snake(self):
-        for block in self.body:
-            # create rectangle
+
+        self.update_head_graphics()
+
+        # enumerate used to see block before and after
+        # index is the index we are on while block is the object we are looking at
+        for index, block in enumerate(self.body):
             x_position = block.x * cell_size
             y_position = block.y * cell_size
             block_rect = pygame.Rect(x_position, y_position, cell_size, cell_size)
-            # draw rectangle
-            pygame.draw.rect(screen, (0, 0, 225), block_rect)
+
+            # What direction is the snake moving?
+            if index == 0:
+                screen.blit(self.head_right, block_rect)
+            else:
+                pygame.draw.rect(screen, (150, 100, 100), block_rect)
+
+    def update_head_graphics(self):
+
+
+
+        # Test code
+        # for block in self.body:
+        #     # create rectangle
+        #     x_position = block.x * cell_size
+        #     y_position = block.y * cell_size
+        #     block_rect = pygame.Rect(x_position, y_position, cell_size, cell_size)
+        #     # draw rectangle
+        #     pygame.draw.rect(screen, (0, 0, 225), block_rect)
+
+
 
     def move_snake(self):
         # when snake eats a fruit only one new block is added to the snake
@@ -64,8 +105,9 @@ class Fruit:
         """
         # create a rectangle
         fruit_rect = pygame.Rect(self.pos.x * cell_size, self.pos.y * cell_size, cell_size, cell_size)
+        screen.blit(apple, fruit_rect)
         # draw rectangle on display screen
-        pygame.draw.rect(screen, (126, 166, 100), fruit_rect)
+        # pygame.draw.rect(screen, (126, 166, 100), fruit_rect)
 
     # create a random position and place the fruit there after eaten by snake
     def randomize(self):
@@ -121,7 +163,7 @@ screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_si
 # variable will represent framerate - How many times do we want our while loop to run
 clock = pygame.time.Clock()
 
-# adds an image
+# adds an image and converts it to a format that pygame can use
 apple = pygame.image.load('Graphics/apple.png').convert_alpha()
 
 # Creating a custom event that will trigger every 150 milliseconds
