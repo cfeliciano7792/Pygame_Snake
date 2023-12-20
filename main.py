@@ -114,7 +114,7 @@ class Main:
 
 pygame.init()
 cell_size = 40
-cell_number = 19  # can change later
+cell_number = 20  # can change later
 # create display screen - main window
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 # variable will represent framerate - How many times do we want our while loop to run
@@ -137,13 +137,19 @@ while True:
         # This event will trigger when ever a button is pressed on the keyboard
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                main_game.snake.direction = Vector2(0, -1)
+                # prevents snake from moving up if it is currently moving down
+                if main_game.snake.direction.y != 1:
+                    main_game.snake.direction = Vector2(0, -1)
             if event.key == pygame.K_DOWN:
-                main_game.snake.direction = Vector2(0, 1)
+                if main_game.snake.direction.y != -1:
+                    main_game.snake.direction = Vector2(0, 1)
             if event.key == pygame.K_LEFT:
-                main_game.snake.direction = Vector2(-1, 0)
+                # prevents snake from moving left if it is currently moving right
+                if main_game.snake.direction.x != 1:
+                    main_game.snake.direction = Vector2(-1, 0)
             if event.key == pygame.K_RIGHT:
-                main_game.snake.direction = Vector2(1, 0)
+                if main_game.snake.direction.x != -1:
+                    main_game.snake.direction = Vector2(1, 0)
     # Fill the main screen green
     screen.fill((175, 215, 72))
     main_game.draw_elements()
