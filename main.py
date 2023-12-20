@@ -131,6 +131,7 @@ class Fruit:
 
     # create a random position and place the fruit there after eaten by snake
     def randomize(self):
+        """This method randomly places the apple somewhere within the display window"""
         # create an x and y position - using randint to generate random position
         self.x = random.randint(0, cell_number - 1)
         self.y = random.randint(0, cell_number - 1)
