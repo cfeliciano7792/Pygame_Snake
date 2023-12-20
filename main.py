@@ -10,6 +10,7 @@ class Snake:
         # holds list containing the blocks of the snake + starting position
         self.body = [Vector2(5, 10), Vector2(6, 10), Vector2(7, 10)]
         self.direction = Vector2(1, 0)
+        self.new_block = False
 
     def draw_snake(self):
         for block in self.body:
@@ -21,8 +22,26 @@ class Snake:
             pygame.draw.rect(screen, (0, 0, 225), block_rect)
 
     def move_snake(self):
+        # when snake eats a fruit only one new block is added to the snake
+        if self.new_block:
+            # copy of snake
+            body_copy = self.body[:]
+            # Adding an element to the front of the list "head" of the snake
+            body_copy.insert(0, body_copy[0] + self.direction)
+            self.body = body_copy[:]
+            # prevents multiple blocks being added to the snake when a fruit is eaten
+            self.new_block = False
+        else:
+            # copy of snake except for the last item
+            body_copy = self.body[:-1]
+            # Adding an element to the front of the list "head" of the snake
+            body_copy.insert(0, body_copy[0] + self.direction)
+            self.body = body_copy[:]
+
+    def add_block(self):
+        self.new_block = True
         # copy of snake except for the last item
-        body_copy = self.body[:-1]
+        body_copy = self.body[:]
         # Adding an element to the front of the list "head" of the snake
         body_copy.insert(0, body_copy[0] + self.direction)
         self.body = body_copy[:]
@@ -77,6 +96,7 @@ class Main:
             # reposition fruit
             self.fruit.randomize()
             # add a new block to snake
+            self.snake.add_block()
 
 
 pygame.init()
