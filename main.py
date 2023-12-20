@@ -9,7 +9,7 @@ class Snake:
     def __init__(self):
         # holds list containing the blocks of the snake + starting position
         self.body = [Vector2(5, 10), Vector2(6, 10), Vector2(7, 10)]
-        self.direction = Vector2(1,0)
+        self.direction = Vector2(1, 0)
 
     def draw_snake(self):
         for block in self.body:
@@ -32,10 +32,10 @@ class Fruit:
 
     def __init__(self):
         # create an x and y position - using randint to generate random position
-        self.x = random.randint(0, cell_number-1)
-        self.y = random.randint(0, cell_number-1)
+        self.x = random.randint(0, cell_number - 1)
+        self.y = random.randint(0, cell_number - 1)
         # create a two-dimensional vector
-        self.pos = Vector2(self.x, self. y)
+        self.pos = Vector2(self.x, self.y)
 
     def draw_fruit(self):
         """
@@ -48,6 +48,22 @@ class Fruit:
         pygame.draw.rect(screen, (126, 166, 100), fruit_rect)
 
 
+class Main:
+
+    def __init__(self):
+        self.snake = Snake()
+        self.fruit = Fruit()
+
+    def update(self):
+        self.snake.move_snake()
+
+    def draw_elements(self):
+        self.fruit.draw_fruit()
+        self.snake.draw_snake()
+
+
+
+
 pygame.init()
 cell_size = 40
 cell_number = 20  # can change later
@@ -56,12 +72,12 @@ screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_si
 # variable will represent framerate - How many times do we want our while loop to run
 clock = pygame.time.Clock()
 
-fruit = Fruit()
-snake = Snake()
-
 # Creating a custom event that will trigger every 150 milliseconds
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
+
+main_game = Main()
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -69,35 +85,23 @@ while True:
             # Make sure all code closes when the red X is clicked on the display window
             sys.exit()
         if event.type == SCREEN_UPDATE:
-            snake.move_snake()
+            main_game.update()
         # This event will trigger when ever a button is pressed on the keyboard
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                snake.direction = Vector2(0, -1)
+                main_game.snake.direction = Vector2(0, -1)
             if event.key == pygame.K_DOWN:
-                snake.direction = Vector2(0, 1)
+                main_game.snake.direction = Vector2(0, 1)
             if event.key == pygame.K_LEFT:
-                snake.direction = Vector2(-1, 0)
+                main_game.snake.direction = Vector2(-1, 0)
             if event.key == pygame.K_RIGHT:
-                snake.direction = Vector2(1, 0)
+                main_game.snake.direction = Vector2(1, 0)
     # Fill the main screen green
     screen.fill((175, 215, 72))
-    fruit.draw_fruit()
-    snake.draw_snake()
+    main_game.draw_elements()
     pygame.display.update()
     # framerate set to 60. Help with consistency across different devices
     clock.tick(60)
-
-
-
-
-
-
-
-
-
-
-
 
 # pygame notes
 # # Starts pygame modules
