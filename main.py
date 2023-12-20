@@ -106,11 +106,6 @@ class Snake:
 
     def add_block(self):
         self.new_block = True
-        # copy of snake except for the last item
-        body_copy = self.body[:]
-        # Adding an element to the front of the list "head" of the snake
-        body_copy.insert(0, body_copy[0] + self.direction)
-        self.body = body_copy[:]
 
 
 class Fruit:
@@ -158,6 +153,7 @@ class Main:
         self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
+        self.draw_score()
 
     def check_collision(self):
         # check if head of snake is in the same position as fruit
@@ -194,6 +190,13 @@ class Main:
                         grass_rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rect)
 
+    def draw_score(self):
+        score_text = str(len(self.snake.body) - 3)
+        score_surface = game_font.render(score_text, True, (56, 74, 20))
+        score_x = int(cell_size*cell_number - 60)
+        score_y = int(cell_size * cell_number - 40)
+        score_rect = score_surface.get_rect(center=(score_x,score_y))
+        screen.blit(score_surface, score_rect)
 
 pygame.init()
 cell_size = 40
@@ -207,7 +210,7 @@ clock = pygame.time.Clock()
 apple = pygame.image.load('Graphics/apple.png').convert_alpha()
 
 # creating a font to use in game
-game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf',25)
+game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
 
 # Creating a custom event that will trigger every 150 milliseconds
 SCREEN_UPDATE = pygame.USEREVENT
