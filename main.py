@@ -58,13 +58,28 @@ clock = pygame.time.Clock()
 
 fruit = Fruit()
 snake = Snake()
+
+# Creating a custom event that will trigger every 150 milliseconds
+SCREEN_UPDATE = pygame.USEREVENT
+pygame.time.set_timer(SCREEN_UPDATE, 150)
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             # Make sure all code closes when the red X is clicked on the display window
             sys.exit()
-
+        if event.type == SCREEN_UPDATE:
+            snake.move_snake()
+        # This event will trigger when ever a button is pressed on the keyboard
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                snake.direction = Vector2(0, -1)
+            if event.key == pygame.K_DOWN:
+                snake.direction = Vector2(0, 1)
+            if event.key == pygame.K_LEFT:
+                snake.direction = Vector2(-1, 0)
+            if event.key == pygame.K_RIGHT:
+                snake.direction = Vector2(1, 0)
     # Fill the main screen green
     screen.fill((175, 215, 72))
     fruit.draw_fruit()
