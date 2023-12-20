@@ -8,6 +8,7 @@ class Snake:
 
     def __init__(self):
         # holds list containing the blocks of the snake + starting position
+        self.head = None
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(1, 0)
         self.new_block = False
@@ -48,8 +49,15 @@ class Snake:
                 pygame.draw.rect(screen, (150, 100, 100), block_rect)
 
     def update_head_graphics(self):
-
-
+        head_relation = self.body[1] - self.body[0]
+        if head_relation == Vector2(1, 0):
+            self.head = self.head_left
+        elif head_relation == Vector2(-1, 0):
+            self.head = self.head_right
+        elif head_relation == Vector2(0, 1):
+            self.head = self.head_up
+        elif head_relation == Vector2(0, -1):
+            self.head = self.head_down
 
         # Test code
         # for block in self.body:
@@ -59,8 +67,6 @@ class Snake:
         #     block_rect = pygame.Rect(x_position, y_position, cell_size, cell_size)
         #     # draw rectangle
         #     pygame.draw.rect(screen, (0, 0, 225), block_rect)
-
-
 
     def move_snake(self):
         # when snake eats a fruit only one new block is added to the snake
