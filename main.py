@@ -112,6 +112,7 @@ class Main:
         pygame.quit()
         sys.exit()
 
+
 pygame.init()
 cell_size = 40
 cell_number = 20  # can change later
@@ -119,6 +120,9 @@ cell_number = 20  # can change later
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 # variable will represent framerate - How many times do we want our while loop to run
 clock = pygame.time.Clock()
+
+# adds an image
+apple = pygame.image.load('Graphics/apple.png').convert_alpha()
 
 # Creating a custom event that will trigger every 150 milliseconds
 SCREEN_UPDATE = pygame.USEREVENT
