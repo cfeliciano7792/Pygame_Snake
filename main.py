@@ -197,11 +197,12 @@ class Main:
         score_y = int(cell_size * cell_number - 40)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = apple.get_rect(midright=(score_rect.left,score_rect.centery))
-        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width, apple_rect.height)
+        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 8, apple_rect.height)
 
         pygame.draw.rect(screen,(164,209, 70), bg_rect)
         screen.blit(score_surface, score_rect)
         screen.blit(apple, apple_rect)
+        pygame.draw.rect(screen, (56, 74, 20), bg_rect, 2)
 
 pygame.init()
 cell_size = 40
