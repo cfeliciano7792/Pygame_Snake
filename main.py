@@ -91,21 +91,22 @@ class Snake:
             self.tail = self.tail_down
 
     def move_snake(self):
-        # when snake eats a fruit only one new block is added to the snake
-        if self.new_block:
-            # copy of snake
-            body_copy = self.body[:]
-            # Adding an element to the front of the list "head" of the snake
-            body_copy.insert(0, body_copy[0] + self.direction)
-            self.body = body_copy[:]
-            # prevents multiple blocks being added to the snake when a fruit is eaten
-            self.new_block = False
-        else:
-            # copy of snake except for the last item
-            body_copy = self.body[:-1]
-            # Adding an element to the front of the list "head" of the snake
-            body_copy.insert(0, body_copy[0] + self.direction)
-            self.body = body_copy[:]
+        if not paused:
+            # when snake eats a fruit only one new block is added to the snake
+            if self.new_block:
+                # copy of snake
+                body_copy = self.body[:]
+                # Adding an element to the front of the list "head" of the snake
+                body_copy.insert(0, body_copy[0] + self.direction)
+                self.body = body_copy[:]
+                # prevents multiple blocks being added to the snake when a fruit is eaten
+                self.new_block = False
+            else:
+                # copy of snake except for the last item
+                body_copy = self.body[:-1]
+                # Adding an element to the front of the list "head" of the snake
+                body_copy.insert(0, body_copy[0] + self.direction)
+                self.body = body_copy[:]
 
     def add_block(self):
         self.new_block = True
@@ -248,6 +249,24 @@ pygame.time.set_timer(SCREEN_UPDATE, timer)
 
 main_game = Main()
 
+rules_font = pygame.font.Font(None, 40)
+rules_surface = rules_font.render("EAT AS MANY APPLES AS YOU CAN!!!!!", True, (0, 0, 0))
+rules_rect = rules_surface.get_rect(center=(400, 200))
+
+rules_surface2 = rules_font.render("PRESS 'E' FOR EASY MODE", True, (0, 0, 0))
+rules_rect2 = rules_surface.get_rect(center=(400, 300))
+
+rules_surface3 = rules_font.render("PRESS 'N' FOR NORMAL MODE", True, (0, 0, 0))
+rules_rect3 = rules_surface.get_rect(center=(400, 350))
+
+rules_surface4 = rules_font.render("PRESS 'H' FOR HARD MODE", True, (0, 0, 0))
+rules_rect4 = rules_surface.get_rect(center=(400, 400))
+
+rules_surface5 = rules_font.render("SPACEBAR = PAUSE/RESUME", True, (0, 0, 0))
+rules_rect5 = rules_surface.get_rect(center=(400, 500))
+
+paused = False
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -281,10 +300,25 @@ while True:
             if event.key == pygame.K_h:
                 timer = 70
                 pygame.time.set_timer(SCREEN_UPDATE, timer)
-    # Fill the main screen green
-    screen.fill((175, 215, 72))
-    main_game.draw_elements()
-    pygame.display.update()
+
+            if event.key == pygame.K_SPACE:
+                paused = not paused
+                if paused:
+                    # Display rules
+                    screen.fill((175, 215, 72))
+                    screen.blit(rules_surface, rules_rect)
+                    screen.blit(rules_surface2, rules_rect2)
+                    screen.blit(rules_surface3, rules_rect3)
+                    screen.blit(rules_surface4, rules_rect4)
+                    screen.blit(rules_surface5, rules_rect5)
+                    pygame.display.update()
+                else:
+                    pygame.time.set_timer(SCREEN_UPDATE, timer)
+    if not paused:
+        # Fill the main screen green
+        screen.fill((175, 215, 72))
+        main_game.draw_elements()
+        pygame.display.update()
     # framerate set to 60. Help with consistency across different devices
     clock.tick(60)
 
