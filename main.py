@@ -195,8 +195,13 @@ class Main:
         score_surface = game_font.render(score_text, True, (56, 74, 20))
         score_x = int(cell_size*cell_number - 60)
         score_y = int(cell_size * cell_number - 40)
-        score_rect = score_surface.get_rect(center=(score_x,score_y))
+        score_rect = score_surface.get_rect(center=(score_x, score_y))
+        apple_rect = apple.get_rect(midright=(score_rect.left,score_rect.centery))
+        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width, apple_rect.height)
+
+        pygame.draw.rect(screen,(164,209, 70), bg_rect)
         screen.blit(score_surface, score_rect)
+        screen.blit(apple, apple_rect)
 
 pygame.init()
 cell_size = 40
