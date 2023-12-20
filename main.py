@@ -206,6 +206,9 @@ clock = pygame.time.Clock()
 # adds an image and converts it to a format that pygame can use
 apple = pygame.image.load('Graphics/apple.png').convert_alpha()
 
+# creating a font to use in game
+game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf',25)
+
 # Creating a custom event that will trigger every 150 milliseconds
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
