@@ -8,7 +8,6 @@ class Snake:
 
     def __init__(self):
         # holds list containing the blocks of the snake + starting position
-        self.head = None
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(1, 0)
         self.new_block = False
@@ -34,19 +33,37 @@ class Snake:
     def draw_snake(self):
 
         self.update_head_graphics()
-
+        self.update_tail_graphics()
         # enumerate used to see block before and after
         # index is the index we are on while block is the object we are looking at
         for index, block in enumerate(self.body):
-            x_position = block.x * cell_size
-            y_position = block.y * cell_size
+            x_position = int(block.x * cell_size)
+            y_position = int(block.y * cell_size)
             block_rect = pygame.Rect(x_position, y_position, cell_size, cell_size)
 
             # What direction is the snake moving?
             if index == 0:
-                screen.blit(self.head_right, block_rect)
+                screen.blit(self.head, block_rect)
+            elif index == len(self.body) - 1:
+                screen.blit(self.tail, block_rect)
             else:
-                pygame.draw.rect(screen, (150, 100, 100), block_rect)
+                previous_block = self.body[index + 1] - block
+                next_block = self.body[index - 1] - block
+                # checks to see if a vertical block or horizontal block should be used
+                if previous_block.x == next_block.x:
+                    screen.blit(self.body_vertical, block_rect)
+                elif previous_block.y == next_block.y:
+                    screen.blit(self.body_horizontal, block_rect)
+                # Check for corner blocks
+                else:
+                    if previous_block.x == -1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == -1:
+                        screen.blit(self.body_tl, block_rect)
+                    elif previous_block.x == -1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == -1:
+                        screen.blit(self.body_bl, block_rect)
+                    elif previous_block.x == 1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == 1:
+                        screen.blit(self.body_tr, block_rect)
+                    elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1:
+                        screen.blit(self.body_br, block_rect)
 
     def update_head_graphics(self):
         head_relation = self.body[1] - self.body[0]
@@ -59,14 +76,16 @@ class Snake:
         elif head_relation == Vector2(0, -1):
             self.head = self.head_down
 
-        # Test code
-        # for block in self.body:
-        #     # create rectangle
-        #     x_position = block.x * cell_size
-        #     y_position = block.y * cell_size
-        #     block_rect = pygame.Rect(x_position, y_position, cell_size, cell_size)
-        #     # draw rectangle
-        #     pygame.draw.rect(screen, (0, 0, 225), block_rect)
+    def update_tail_graphics(self):
+        tail_relation = self.body[-2] - self.body[-1]
+        if tail_relation == Vector2(1, 0):
+            self.tail = self.tail_left
+        elif tail_relation == Vector2(-1, 0):
+            self.tail = self.tail_right
+        elif tail_relation == Vector2(0, 1):
+            self.tail = self.tail_up
+        elif tail_relation == Vector2(0, -1):
+            self.tail = self.tail_down
 
     def move_snake(self):
         # when snake eats a fruit only one new block is added to the snake
@@ -159,6 +178,12 @@ class Main:
     def game_over(self):
         pygame.quit()
         sys.exit()
+
+    def draw_grass(self):
+        grass_color = (167, 209, 61)
+
+        for col in range(cell_number):
+            grass_rect = pygame.Rect(col * cell_size, 0, cell_size, cell_size)
 
 
 pygame.init()
