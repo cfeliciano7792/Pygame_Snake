@@ -9,6 +9,7 @@ class Snake:
     def __init__(self):
         # holds list containing the blocks of the snake + starting position
         self.body = [Vector2(5, 10), Vector2(6, 10), Vector2(7, 10)]
+        self.direction = Vector2(1,0)
 
     def draw_snake(self):
         for block in self.body:
@@ -18,6 +19,13 @@ class Snake:
             block_rect = pygame.Rect(x_position, y_position, cell_size, cell_size)
             # draw rectangle
             pygame.draw.rect(screen, (0, 0, 225), block_rect)
+
+    def move_snake(self):
+        # copy of snake except for the last item
+        body_copy = self.body[:-1]
+        # Adding an element to the front of the list "head" of the snake
+        body_copy.insert(0, body_copy[0] + self.direction)
+        self.body = body_copy[:]
 
 
 class Fruit:
